@@ -135,8 +135,8 @@
   function lookAt(eye,target){const z=norm(eye.map((x,i)=>x-target[i])),x=norm([z[2],0,-z[0]]),y=[z[1]*x[2],z[2]*x[0]-z[0]*x[2],-z[1]*x[0]];return new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-x.reduce((a,v,i)=>a+v*eye[i],0),-y.reduce((a,v,i)=>a+v*eye[i],0),-z.reduce((a,v,i)=>a+v*eye[i],0),1]);}
   function perspective(fov,aspect){const f=1/Math.tan(fov/2),near=.1,far=180,nf=1/(near-far);return new Float32Array([f/aspect,0,0,0,0,f,0,0,0,0,(far+near)*nf,-1,0,0,2*far*near*nf,0]);}
   function multiply(a,b){const out=new Float32Array(16);for(let c=0;c<4;c++)for(let r=0;r<4;r++)out[c*4+r]=a[r]*b[c*4]+a[4+r]*b[c*4+1]+a[8+r]*b[c*4+2]+a[12+r]*b[c*4+3];return out;}
-  const camera={theta:.76,phi:.83,distance:52,target:[0,-.7,0]};
-  const desired={...camera,target:[0,-.7,0]};
+  const camera={theta:.76,phi:.83,distance:44,target:[0,-1.7,0]};
+  const desired={...camera,target:[0,-1.7,0]};
   let drag=null,currentView='city';
   canvas.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY,desired.theta,desired.phi];canvas.setPointerCapture(e.pointerId);});
   canvas.addEventListener('pointermove',e=>{if(!drag)return;desired.theta=drag[2]-(e.clientX-drag[0])*.007;desired.phi=Math.min(1.4,Math.max(.25,drag[3]+(e.clientY-drag[1])*.006));});
@@ -146,8 +146,8 @@
     document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));});
     const view=button.dataset.view;
     currentView=view;
-    desired.target=view==='park'?[-8,.1,-6.6]:view==='city'?[0,-.7,0]:[0,.4,0];
-    desired.distance=view==='city'?52:16;
+    desired.target=view==='park'?[-8,.1,-6.6]:view==='city'?[0,-1.7,0]:[0,.4,0];
+    desired.distance=view==='city'?44:16;
     desired.phi=view==='city'?.83:.76;desired.theta=view==='park'?.65:.76;
   }));
   const ids=['light','lightValue','traffic','trafficValue','moisture','moistureValue','mode','vehicleCount','queueCount','passedCount','phaseInfo','waterStatus','tankValue','tankFill','events','signalX','signalZ','rain','refill','pause'];

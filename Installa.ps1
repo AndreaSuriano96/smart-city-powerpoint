@@ -1,11 +1,8 @@
 $ErrorActionPreference = 'Stop'
+$catalog = '\\NOTEBOOK-AS\SmartCityAddins'
 $manifestPath = Join-Path $PSScriptRoot 'docs\manifest.xml'
-[xml]$manifest = Get-Content -LiteralPath $manifestPath -Raw
-$ns = New-Object System.Xml.XmlNamespaceManager($manifest.NameTable)
-$ns.AddNamespace('o','http://schemas.microsoft.com/office/appforoffice/1.1')
-$addinId = $manifest.SelectSingleNode('/o:OfficeApp/o:Id',$ns).InnerText
-$sourceUrl = $manifest.SelectSingleNode('/o:OfficeApp/o:DefaultSettings/o:SourceLocation',$ns).GetAttribute('DefaultValue')
-if ($addinId -ne '9dd47b1d-7c2f-4cb0-bcb8-8bb9e7f6772a' -or $sourceUrl -ne 'https://andreasuriano96.github.io/smart-city-powerpoint/index.html') { throw 'Manifest non riconosciuto: installazione annullata.' }
-$key = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey('Software\Microsoft\Office\16.0\WEF\Developer')
-try { $key.SetValue($addinId,[IO.Path]::GetFullPath($manifestPath),[Microsoft.Win32.RegistryValueKind]::String) } finally { $key.Close() }
-Write-Output 'Smart City 3D registrato per questo utente. Apri la presentazione V1.4 con PowerPoint. Serve Internet.'
+if (-not (Test-Path -LiteralPath $manifestPath)) { throw 'Manifest non trovato.' }
+Write-Output 'Questo script non cambia le impostazioni di sicurezza di Office.'
+Write-Output "1. Condividi la cartella '$PSScriptRoot\docs' con il nome SmartCityAddins; il percorso deve essere $catalog."
+Write-Output '2. In PowerPoint: File > Opzioni > Centro protezione > Impostazioni Centro protezione > Cataloghi di componenti aggiuntivi attendibili; aggiungi il percorso e abilita Mostra nel menu.'
+Write-Output '3. Chiudi e riapri PowerPoint. Poi apri la presentazione più recente. Serve Internet per caricare la simulazione da GitHub Pages.'

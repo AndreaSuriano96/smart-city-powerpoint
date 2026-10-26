@@ -1,0 +1,6 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\WEF\TrustedCatalogs\{b77f9556-5e8f-4f4b-9ff8-36fdb64b3140}]
+"Id"="{b77f9556-5e8f-4f4b-9ff8-36fdb64b3140}"
+"Url"="\\\\NOTEBOOK-AS\\SmartCityAddins"
+"Flags"=dword:00000001
