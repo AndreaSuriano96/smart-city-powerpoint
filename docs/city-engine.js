@@ -5,8 +5,10 @@
   const STOP_LINE = -2.65;
   const STOP_CENTER = STOP_LINE - HALF - 0.12;
   const GAP = 0.64;
-  const EDGE = 15.4;
-  const ENTRY = 15.0;
+  // The two road axes have different lengths: x spans 32 units, z spans 26.
+  // Spawn and despawn cars before their body crosses the corresponding road edge.
+  const ROAD_HALF = {x:16,z:13};
+  const EDGE_MARGIN = 0.05;
   const PHASES = ['xGreen','xYellow','xClear','zGreen','zYellow','zClear'];
   const LANES = [
     {id:'east',axis:'x',dir:1},
@@ -28,7 +30,10 @@
       this.phaseIndex = 0;
       this.phaseTime = 0;
       this.greenDuration = 7;
-      this.lanes = LANES.map((lane,i)=>({...lane,cars:[],spawnTimer:1.5+i*.8}));
+      this.lanes = LANES.map((lane,i)=>{
+        const edge=ROAD_HALF[lane.axis]-HALF-EDGE_MARGIN;
+        return {...lane,entry:edge,exit:edge,cars:[],spawnTimer:1.5+i*.8};
+      });
       this.nextId = 0;
       this.passed = 0;
       this.accumulator = 0;
@@ -42,7 +47,7 @@
       this.events.unshift({time:this.time,message});
       this.events=this.events.slice(0,4);
     }
-    spawn(lane,q=-ENTRY,speed=0) {
+    spawn(lane,q=-lane.entry,speed=0) {
       lane.cars.push({id:this.nextId++,q,speed,committed:q>STOP_CENTER,color:this.nextId%5,lane:lane.id});
     }
     get phase() { return PHASES[this.phaseIndex]; }
@@ -114,12 +119,12 @@
           leader=car;
         }
         const prior=lane.cars.length;
-        lane.cars=lane.cars.filter(car=>car.q<EDGE+1.5);
+        lane.cars=lane.cars.filter(car=>car.q<lane.exit);
         this.passed+=prior-lane.cars.length;
         lane.spawnTimer-=dt;
         if(this.demand>.02&&lane.spawnTimer<=0) {
           const tail=lane.cars[lane.cars.length-1];
-          if(!tail||tail.q>-ENTRY+LENGTH+GAP+.4) {
+          if(!tail||tail.q>-lane.entry+LENGTH+GAP+.4) {
             this.spawn(lane);
             lane.spawnTimer=1.65+(1-this.demand)*5.4;
           } else lane.spawnTimer=.35;
@@ -136,7 +141,7 @@
       this.updateWaterSwitch();
     }
   }
-  const api={CityEngine,STOP_LINE,STOP_CENTER,LENGTH,HALF,GAP,EDGE};
+  const api={CityEngine,STOP_LINE,STOP_CENTER,LENGTH,HALF,GAP};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.SmartCityEngine=api;
 })(typeof globalThis!=='undefined'?globalThis:this);
