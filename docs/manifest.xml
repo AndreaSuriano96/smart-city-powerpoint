@@ -3,5 +3,5 @@
  <Id>9dd47b1d-7c2f-4cb0-bcb8-8bb9e7f6772a</Id><Version>1.0.0.0</Version><ProviderName>Andrea Suriano</ProviderName><DefaultLocale>it-IT</DefaultLocale>
  <DisplayName DefaultValue="Smart City 3D"/><Description DefaultValue="Simulazione didattica interattiva di traffico, semafori, irrigazione e luce dentro una slide."/>
  <IconUrl DefaultValue="https://andreasuriano96.github.io/smart-city-powerpoint/icon.png"/><SupportUrl DefaultValue="https://github.com/AndreaSuriano96/smart-city-powerpoint"/>
- <Hosts><Host Name="Presentation"/></Hosts><DefaultSettings><SourceLocation DefaultValue="https://andreasuriano96.github.io/smart-city-powerpoint/index.html"/></DefaultSettings><Permissions>Restricted</Permissions>
+ <Hosts><Host Name="Presentation"/></Hosts><DefaultSettings><SourceLocation DefaultValue="https://andreasuriano96.github.io/smart-city-powerpoint/index.html?v=1.12"/></DefaultSettings><Permissions>Restricted</Permissions>
 </OfficeApp>

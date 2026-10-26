@@ -8,7 +8,11 @@
   // The two road axes have different lengths: x spans 32 units, z spans 26.
   // Spawn and despawn cars before their body crosses the corresponding road edge.
   const ROAD_HALF = {x:16,z:13};
-  const EDGE_MARGIN = 0.05;
+  const EDGE_MARGIN = 0.9;
+  const ROAD_LIMIT = {
+    x: ROAD_HALF.x-HALF-EDGE_MARGIN,
+    z: ROAD_HALF.z-HALF-EDGE_MARGIN
+  };
   const PHASES = ['xGreen','xYellow','xClear','zGreen','zYellow','zClear'];
   const LANES = [
     {id:'east',axis:'x',dir:1},
@@ -30,17 +34,14 @@
       this.phaseIndex = 0;
       this.phaseTime = 0;
       this.greenDuration = 7;
-      this.lanes = LANES.map((lane,i)=>{
-        const edge=ROAD_HALF[lane.axis]-HALF-EDGE_MARGIN;
-        return {...lane,entry:edge,exit:edge,cars:[],spawnTimer:1.5+i*.8};
-      });
+      this.lanes = LANES.map((lane,i)=>({...lane,entry:ROAD_LIMIT[lane.axis],exit:ROAD_LIMIT[lane.axis],cars:[],spawnTimer:1.5+i*.8}));
       this.nextId = 0;
       this.passed = 0;
       this.accumulator = 0;
       this.events = [];
       this.event('Città connessa: sensori attivi.');
       this.lanes.forEach((lane,i) => {
-        [-4.2-i*.3,-8.2-i*.25,-12.1].forEach((q,k)=>this.spawn(lane,q,k===0?0:1));
+        [-4.2-i*.3,-8.2-i*.25,-Math.min(12.1,lane.entry-1)].forEach((q,k)=>this.spawn(lane,q,k===0?0:1));
       });
     }
     event(message) {
@@ -141,7 +142,7 @@
       this.updateWaterSwitch();
     }
   }
-  const api={CityEngine,STOP_LINE,STOP_CENTER,LENGTH,HALF,GAP};
+  const api={CityEngine,STOP_LINE,STOP_CENTER,LENGTH,HALF,GAP,ROAD_LIMIT};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.SmartCityEngine=api;
 })(typeof globalThis!=='undefined'?globalThis:this);

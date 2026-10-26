@@ -173,6 +173,8 @@
     if(key!==previousEvents){previousEvents=key;ui.events.replaceChildren(...engine.events.slice(0,2).map(e=>{const div=document.createElement('div');div.textContent=e.message;return div;}));}
   }
   function renderCar(car){
+    // A final renderer-side guard keeps stale or out-of-range simulation states off the map.
+    if(Math.abs(car.q)>SmartCityEngine.ROAD_LIMIT[car.axis])return;
     const pos=car.axis==='x'?[car.q*car.dir,car.dir*.78]:[-car.dir*.78,car.q*car.dir];
     const yaw=car.axis==='x'?(car.dir===1?0:Math.PI):(car.dir===1?-Math.PI/2:Math.PI/2);
     const palette=[[.93,.35,.31],[.24,.83,.76],[.88,.91,.94],[.84,.66,.98],[.96,.75,.31]],color=palette[car.color];
