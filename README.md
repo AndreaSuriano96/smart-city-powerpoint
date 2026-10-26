@@ -1,6 +1,6 @@
 # Smart City 3D per PowerPoint
 
-La simulazione interattiva è integrata nella slide finale della presentazione. La V1.9 fa occupare alla simulazione tutta la slide e avvicina la vista iniziale della città. Il titolo e il marchio BAIT restano nella pagina interattiva. Richiede PowerPoint per Windows e Internet per caricare la pagina pubblica e le API di Office.
+La simulazione interattiva è integrata nella slide finale della presentazione. La V1.10 occupa tutta la slide, avvicina la vista iniziale della città, mostra gli avvisi di acqua nella scheda Acqua e fa entrare le auto dalla carreggiata. Il titolo e il marchio BAIT restano nella pagina interattiva. Richiede PowerPoint per Windows e Internet per caricare la pagina pubblica e le API di Office.
 
 ## Configurazione su Windows
 

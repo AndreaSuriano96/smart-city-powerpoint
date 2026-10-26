@@ -6,6 +6,7 @@
   const STOP_CENTER = STOP_LINE - HALF - 0.12;
   const GAP = 0.64;
   const EDGE = 15.4;
+  const ENTRY = 15.0;
   const PHASES = ['xGreen','xYellow','xClear','zGreen','zYellow','zClear'];
   const LANES = [
     {id:'east',axis:'x',dir:1},
@@ -41,7 +42,7 @@
       this.events.unshift({time:this.time,message});
       this.events=this.events.slice(0,4);
     }
-    spawn(lane,q=-EDGE,speed=0) {
+    spawn(lane,q=-ENTRY,speed=0) {
       lane.cars.push({id:this.nextId++,q,speed,committed:q>STOP_CENTER,color:this.nextId%5,lane:lane.id});
     }
     get phase() { return PHASES[this.phaseIndex]; }
@@ -118,7 +119,7 @@
         lane.spawnTimer-=dt;
         if(this.demand>.02&&lane.spawnTimer<=0) {
           const tail=lane.cars[lane.cars.length-1];
-          if(!tail||tail.q>-EDGE+LENGTH+GAP+.4) {
+          if(!tail||tail.q>-ENTRY+LENGTH+GAP+.4) {
             this.spawn(lane);
             lane.spawnTimer=1.65+(1-this.demand)*5.4;
           } else lane.spawnTimer=.35;

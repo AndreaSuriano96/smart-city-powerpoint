@@ -41,12 +41,12 @@
 <p class="water-status" id="waterStatus">Terreno umido: irrigazione ferma</p>
 <div class="control-label"><span>Riserva d’acqua</span><span id="tankValue">80 L</span></div><div class="tank"><span id="tankFill" style="width:100%"></span></div>
 <div class="water-actions" style="margin-top:12px"><button id="rain" aria-pressed="false">Pioggia</button><button id="refill">Riempi serbatoio</button></div>
+<div id="events" class="log" aria-live="polite"></div>
 </section>
 <section class="panel" role="tabpanel" id="panel-light" aria-labelledby="tab-light" hidden>
 <h2>Luce e sensori</h2>
 <label class="control-label" for="light">Luce esterna <span class="value"><span id="lightValue">58</span>%</span></label><input id="light" type="range" min="0" max="100" value="58">
 <p class="hint">Sotto il 30% si accendono lampioni e facciate.</p>
-<div id="events" class="log" aria-live="polite"></div>
 </section>
 </aside>
 </div>
