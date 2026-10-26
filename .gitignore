@@ -1,0 +1,4 @@
+*.pptx
+*.zip
+node_modules/
+.private/

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart City Ecologica · Laboratorio 3D</title>
+<style>
+:root{color-scheme:dark;--ink:#e8f5f6;--muted:#9db5c2;--cyan:#62ead8;--line:#294354;--panel:#122936;--back:#091822}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#173845,var(--back) 65%);color:var(--ink);font:15px/1.45 Arial,Helvetica,sans-serif}main{max-width:1600px;margin:auto;padding:22px 28px 24px}header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}.eyebrow{color:var(--cyan);font-size:11px;letter-spacing:.18em;text-transform:uppercase}.brand{display:flex;align-items:center;gap:14px}.mark{background:#ca2638;color:white;padding:12px 8px;border-radius:9px;font-size:12px;font-weight:bold}h1{font-size:clamp(22px,2.6vw,34px);letter-spacing:-.03em;margin:2px 0 0;line-height:1.2}button{font:inherit;border:1px solid var(--line);border-radius:9px;background:#193644;color:var(--ink);padding:8px 13px;cursor:pointer}button:hover{background:#244b5c}button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}button.active,button[aria-pressed=true]{background:#62ead8;color:#092629;border-color:#62ead8}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.toolbar span{color:var(--muted);font-size:12px;margin-right:4px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 304px;gap:16px}.scene{min-width:0;position:relative;overflow:hidden;border-radius:18px;border:1px solid var(--line);background:#183d4a}canvas{display:block;width:100%;height:640px;touch-action:none;cursor:grab}canvas:active{cursor:grabbing}.scene-top{position:absolute;top:16px;left:18px;right:18px;display:flex;justify-content:space-between;gap:10px;pointer-events:none}.scene-title{font-size:11px;letter-spacing:.12em;color:#d2eef1;text-transform:uppercase}.scene-note{position:absolute;bottom:14px;left:18px;color:#b4d1dc;font-size:11px;pointer-events:none}.signal-hud{position:absolute;top:49px;left:18px;display:flex;gap:8px;pointer-events:none}.signal-pill{background:#0b202de8;border:1px solid #294a5d;border-radius:10px;padding:8px 10px;min-width:122px;box-shadow:0 4px 20px #0002}.signal-pill small{display:block;color:#b7cbd5;font-size:10px;text-transform:uppercase;letter-spacing:.1em}.signal-pill b{font-size:13px;display:flex;align-items:center;gap:7px;margin-top:2px}.dot{height:9px;width:9px;border-radius:50%;background:#fa757c;display:inline-block}.signal-pill[data-state=green] .dot{background:#60f2a8;box-shadow:0 0 9px #60f2a8}.signal-pill[data-state=yellow] .dot{background:#ffda77;box-shadow:0 0 9px #ffda77}.signal-pill[data-state=red] .dot{background:#fb727b;box-shadow:0 0 9px #fb727b}.side{display:flex;flex-direction:column;gap:13px}.panel{background:linear-gradient(135deg,#163240,#102632);border:1px solid var(--line);border-radius:14px;padding:15px}.panel h2{margin:0 0 14px;font-size:15px;font-weight:600}.control-label{display:flex;justify-content:space-between;gap:8px;align-items:baseline;font-size:12px;color:#d2e5eb}.value{color:var(--cyan);font-size:18px;font-variant-numeric:tabular-nums}input[type=range]{width:100%;accent-color:var(--cyan);margin:8px 0 3px;cursor:pointer}.hint{color:var(--muted);font-size:11px;margin:0}.metrics{display:flex;justify-content:space-between;gap:10px;padding-top:11px;margin-top:10px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}.metrics b{font-size:20px;display:block;color:var(--ink);font-variant-numeric:tabular-nums}.water-status{font-size:12px;color:var(--cyan);margin:10px 0}.water-actions{display:flex;gap:7px}.water-actions button{font-size:11px;padding:7px 10px}.tank{height:5px;margin-top:9px;border-radius:5px;background:#274756;overflow:hidden}.tank span{display:block;height:100%;background:#59d4f0;transition:width .2s}.log{font-size:11px;color:#aac4cf;min-height:50px}.log div{border-left:2px solid #376b7b;padding-left:9px;margin-top:8px}.foot{color:#91adbc;font-size:11px;margin:13px 2px 0}.bottom{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-top:13px}.bottom p{margin:0;color:var(--muted);font-size:12px}.bottom button{font-size:12px}.error{padding:24px;color:#ffb2b8}
+@media(min-width:1440px){canvas{height:700px}}@media(max-width:1000px){main{padding:18px}.layout{grid-template-columns:minmax(0,1fr) 270px}canvas{height:620px}.toolbar span{display:none}}@media(max-width:760px){main{padding:14px}.layout{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.side .panel:last-child{grid-column:1/-1}header{align-items:flex-start;flex-direction:column}.toolbar{gap:6px}canvas{height:510px}.signal-hud{top:46px}.scene-top{right:12px;left:12px}.signal-hud{left:12px}.signal-pill{min-width:110px}.bottom{align-items:flex-start}.bottom p{max-width:70%}}@media(max-width:450px){.side{grid-template-columns:1fr}.side .panel:last-child{grid-column:auto}canvas{height:430px}.scene-title{font-size:9px}.signal-pill{padding:6px 8px;min-width:106px}.toolbar button{padding:7px 11px}}
+.layout{align-items:start}.scene{position:sticky;top:16px}@media(max-width:760px){.scene{position:relative;top:auto}}
+</style>
+<link rel="stylesheet" href="embed.css">
+<script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+</head>
+<body>
+<main>
+<header>
+<div class="brand"><div class="mark">BAIT</div><div><div class="eyebrow">Smart City Ecologica</div><h1>La città prende vita</h1></div></div>
+<nav class="toolbar" aria-label="Punto di osservazione"><span>Esplora</span><button data-view="city" class="active" aria-pressed="true">Città</button><button data-view="traffic" aria-pressed="false">Incrocio</button><button data-view="park" aria-pressed="false">Parco</button></nav>
+</header>
+<div class="layout">
+<section class="scene">
+<canvas id="city" aria-label="Città 3D esplorabile con incrocio regolato da semafori, auto in coda e parco irrigato"></canvas>
+<div class="scene-top"><span class="scene-title">Laboratorio urbano connesso</span><span class="scene-title" id="mode">Giorno</span></div>
+<div class="signal-hud" aria-label="Stato dei semafori"><div id="signalX" class="signal-pill" data-state="green"><small>Est–Ovest</small><b><i class="dot"></i><span>Verde</span></b></div><div id="signalZ" class="signal-pill" data-state="red"><small>Nord–Sud</small><b><i class="dot"></i><span>Rosso</span></b></div></div>
+<div class="scene-note">Trascina per ruotare · rotellina per zoomare</div>
+</section>
+<aside class="side">
+<nav class="control-tabs" role="tablist" aria-label="Servizi della città"><button role="tab" aria-selected="true" aria-controls="panel-traffic" id="tab-traffic" data-panel="0">Traffico</button><button role="tab" aria-selected="false" aria-controls="panel-water" id="tab-water" data-panel="1" tabindex="-1">Acqua</button><button role="tab" aria-selected="false" aria-controls="panel-light" id="tab-light" data-panel="2" tabindex="-1">Luce</button></nav>
+<section class="panel" role="tabpanel" id="panel-traffic" aria-labelledby="tab-traffic">
+<h2>Mobilità intelligente</h2>
+<label class="control-label" for="traffic">Afflusso di veicoli <span class="value"><span id="trafficValue">55</span>%</span></label><input id="traffic" type="range" min="0" max="100" value="55"><p class="hint">Le auto mantengono la distanza e rispettano il rosso. Il verde si adatta alla coda al cambio di fase.</p>
+<div class="metrics"><div>In città<b id="vehicleCount">12</b></div><div>In coda<b id="queueCount">0</b></div><div>Transitate<b id="passedCount">0</b></div></div>
+<p class="hint" id="phaseInfo" style="margin-top:10px">Verde Est–Ovest · 7 s</p>
+</section>
+<section class="panel" role="tabpanel" id="panel-water" aria-labelledby="tab-water" hidden>
+<h2>Parco e acqua</h2>
+<label class="control-label" for="moisture">Umidità del terreno <span class="value"><span id="moistureValue">53</span>%</span></label><input id="moisture" type="range" min="0" max="100" value="53">
+<p class="hint">Portala sotto il 32%: partono i getti. L’umidità risale e la valvola si chiude al 65%.</p>
+<p class="water-status" id="waterStatus">Terreno umido: irrigazione ferma</p>
+<div class="control-label"><span>Riserva d’acqua</span><span id="tankValue">80 L</span></div><div class="tank"><span id="tankFill" style="width:100%"></span></div>
+<div class="water-actions" style="margin-top:12px"><button id="rain" aria-pressed="false">Pioggia</button><button id="refill">Riempi serbatoio</button></div>
+</section>
+<section class="panel" role="tabpanel" id="panel-light" aria-labelledby="tab-light" hidden>
+<h2>Luce e sensori</h2>
+<label class="control-label" for="light">Luce esterna <span class="value"><span id="lightValue">58</span>%</span></label><input id="light" type="range" min="0" max="100" value="58">
+<p class="hint">Sotto il 30% si accendono lampioni e facciate.</p>
+<div id="events" class="log" aria-live="polite"></div>
+</section>
+</aside>
+</div>
+<div class="bottom"><p>Modello didattico: sensori, tempi e litri sono simulati. I dati non descrivono una città reale.</p><button id="pause" aria-pressed="false">Pausa</button></div>
+<p class="foot" id="office-status" role="status">Smart City 3D · Componente gratuito per PowerPoint</p>
+</main>
+<script src="city-engine.js"></script>
+<script src="city-view.js"></script>
+<script src="office-host.js"></script>
+</body>
+</html>
