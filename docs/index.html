@@ -37,7 +37,7 @@
 <section class="panel" role="tabpanel" id="panel-water" aria-labelledby="tab-water" hidden>
 <h2>Parco e acqua</h2>
 <label class="control-label" for="moisture">Umidità del terreno <span class="value"><span id="moistureValue">53</span>%</span></label><input id="moisture" type="range" min="0" max="100" value="53">
-<p class="hint">Portala sotto il 32%: partono i getti. L’umidità risale e la valvola si chiude al 65%.</p>
+<p class="hint">Sotto il 32% partono i getti; al 65% si fermano. Con la pioggia, terreno e riserva si ricaricano lentamente.</p>
 <p class="water-status" id="waterStatus">Terreno umido: irrigazione ferma</p>
 <div class="control-label"><span>Riserva d’acqua</span><span id="tankValue">80 L</span></div><div class="tank"><span id="tankFill" style="width:100%"></span></div>
 <div class="water-actions" style="margin-top:12px"><button id="rain" aria-pressed="false">Pioggia</button><button id="refill">Riempi serbatoio</button></div>
@@ -53,8 +53,8 @@
 <div class="bottom"><p>Modello didattico: sensori, tempi e litri sono simulati. I dati non descrivono una città reale.</p><button id="pause" aria-pressed="false">Pausa</button></div>
 <p class="foot" id="office-status" role="status">Smart City 3D · Componente gratuito per PowerPoint</p>
 </main>
-<script src="city-engine.js?v=1.12"></script>
-<script src="city-view.js?v=1.12"></script>
+<script src="city-engine.js?v=1.13"></script>
+<script src="city-view.js?v=1.15.1"></script>
 <script src="office-host.js"></script>
 </body>
 </html>

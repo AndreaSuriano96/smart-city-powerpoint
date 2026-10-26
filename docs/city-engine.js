@@ -66,14 +66,14 @@
       return this.lanes.some(l=>l.cars.some(c=>c.committed&&c.q+HALF>STOP_LINE-.25&&c.q-HALF<-STOP_LINE));
     }
     get irrigationMessage() {
-      if(this.rain)return 'Pioggia: irrigazione sospesa';
+      if(this.rain)return this.tank>=80?'Pioggia: irrigazione sospesa, riserva piena':'Pioggia: riserva in ricarica lenta';
       if(this.tank<=0)return 'Serbatoio vuoto: ricarica acqua';
       if(this.irrigating)return 'Getti attivi fino al 65%';
       return 'In attesa: il terreno è umido';
     }
     setMoisture(value) {this.moisture=Math.max(0,Math.min(100,value));this.updateWaterSwitch();}
     setDemand(value) {this.demand=Math.max(0,Math.min(1,value));}
-    setRain(value) {this.rain=!!value;this.event(value?'Pioggia rilevata: acqua risparmiata.':'La pioggia è terminata.');this.updateWaterSwitch();}
+    setRain(value) {this.rain=!!value;this.event(value?'Pioggia avviata: terreno e riserva si ricaricano lentamente.':'La pioggia è terminata.');this.updateWaterSwitch();}
     refill() {this.tank=80;this.event('Serbatoio ricaricato: 80 litri simulati.');this.updateWaterSwitch();}
     updateWaterSwitch() {
       const before=this.irrigating;
@@ -137,7 +137,10 @@
         this.tank-=available;
         this.waterUsed+=available;
         this.moisture=Math.min(100,this.moisture+available*4.5);
-      } else if(this.rain)this.moisture=Math.min(100,this.moisture+2.3*dt);
+      } else if(this.rain){
+        this.moisture=Math.min(100,this.moisture+2.3*dt);
+        this.tank=Math.min(80,this.tank+.12*dt);
+      }
       else this.moisture=Math.max(0,this.moisture-(.012+this.light/100*.035)*dt);
       this.updateWaterSwitch();
     }

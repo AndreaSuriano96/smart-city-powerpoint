@@ -137,6 +137,24 @@
   function multiply(a,b){const out=new Float32Array(16);for(let c=0;c<4;c++)for(let r=0;r<4;r++)out[c*4+r]=a[r]*b[c*4]+a[4+r]*b[c*4+1]+a[8+r]*b[c*4+2]+a[12+r]*b[c*4+3];return out;}
   const camera={theta:.76,phi:.83,distance:44,target:[0,-1.7,0]};
   const desired={...camera,target:[0,-1.7,0]};
+  // Frame the actual scene geometry, including the near edge of the base.
+  const cityFramePoints=staticObjects.flatMap(o=>{
+    const points=[],c=Math.cos(o.yaw),s=Math.sin(o.yaw);
+    for(const dx of[-o.w/2,o.w/2])for(const dy of[-o.h/2,o.h/2])for(const dz of[-o.d/2,o.d/2]){
+      points.push([o.x+c*dx+s*dz,o.y+dy,o.z-s*dx+c*dz]);
+    }
+    return points;
+  });
+  function cityFitDistance(aspect){
+    const st=Math.sin(camera.theta),ct=Math.cos(camera.theta),sp=Math.sin(camera.phi),cp=Math.cos(camera.phi),tan=Math.tan(.77/2);
+    let distance=0;
+    for(const p of cityFramePoints){
+      const x=p[0]-camera.target[0],y=p[1]-camera.target[1],z=p[2]-camera.target[2];
+      const horizontal=ct*x-st*z,vertical=-sp*st*x+cp*y-sp*ct*z,depth=cp*st*x+sp*y+cp*ct*z;
+      distance=Math.max(distance,depth+Math.abs(horizontal)/(tan*aspect*.92),depth+Math.abs(vertical)/(tan*(vertical>=0?.86:.88)));
+    }
+    return distance;
+  }
   let drag=null,currentView='city';
   canvas.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY,desired.theta,desired.phi];canvas.setPointerCapture(e.pointerId);});
   canvas.addEventListener('pointermove',e=>{if(!drag)return;desired.theta=drag[2]-(e.clientX-drag[0])*.007;desired.phi=Math.min(1.4,Math.max(.25,drag[3]+(e.clientY-drag[1])*.006));});
@@ -213,7 +231,7 @@
     gl.viewport(0,0,w,h);
     const day=engine.light/100,sky=[.045+day*.27,.09+day*.37,.15+day*.40],night=engine.light<30;
     gl.clearColor(...sky,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
-    const fittedDistance=camera.distance*(currentView==='city'?Math.max(1,1.15/(w/h)):1);
+    const fittedDistance=currentView==='city'?cityFitDistance(w/h)*(camera.distance/44):camera.distance;
     const eye=[camera.target[0]+Math.sin(camera.theta)*Math.cos(camera.phi)*fittedDistance,camera.target[1]+Math.sin(camera.phi)*fittedDistance,camera.target[2]+Math.cos(camera.theta)*Math.cos(camera.phi)*fittedDistance];
     gl.uniformMatrix4fv(U.VP,false,multiply(perspective(.77,w/h),lookAt(eye,camera.target)));
     gl.uniform3f(U.Camera,...eye);gl.uniform3f(U.Fog,...sky);gl.uniform1f(U.Day,day);
